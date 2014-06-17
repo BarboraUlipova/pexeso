@@ -2,7 +2,7 @@
 import pexeso
 import flask
 import os
-
+from flask import request
 app = flask.Flask(__name__) 
 
 jmeno_souboru="soubor_s_hrou"
@@ -16,20 +16,26 @@ def hello():
 		
 	
 	odpoved = []
+	odpoved.append("<form action = 'hra' method = 'POST'>")
 	odpoved.append("<table border=1>")
 	for radek in hra['stav']:
 		odpoved.append("  <tr>")
 		for sloupec in radek:
 			cislo, jazyk,otoceni = sloupec
+			odpoved.append("  <td>")
 			if otoceni:
-				odpoved.append("    <td>" + pexeso.slovo_podle_indexu(cislo, jazyk) + "</td>")
+				odpoved.append(pexeso.slovo_podle_indexu(cislo, jazyk))
 			else:
-				odpoved.append("    <td>???</td>")
+				odpoved.append("<button name = 'tah' type='submit' value='0 0'>???</button>")
+			odpoved.append("  </td>")
 		odpoved.append("  </tr>")
 	odpoved.append("</table>")
+	odpoved.append("</form>")
 	
 	return "\n".join(odpoved)
 
-
+@app.route('/hra', methods = ['POST'])
+def hra():
+	return request.form['tah']
 app.run(debug=True)
 

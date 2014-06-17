@@ -18,15 +18,15 @@ def hello():
 	odpoved = []
 	odpoved.append("<form action = 'hra' method = 'POST'>")
 	odpoved.append("<table border=1>")
-	for radek in hra['stav']:
+	for cislo_radku, radek in enumerate(hra['stav']):
 		odpoved.append("  <tr>")
-		for sloupec in radek:
+		for cislo_sloupce, sloupec in enumerate(radek):
 			cislo, jazyk,otoceni = sloupec
 			odpoved.append("  <td>")
 			if otoceni:
 				odpoved.append(pexeso.slovo_podle_indexu(cislo, jazyk))
 			else:
-				odpoved.append("<button name = 'tah' type='submit' value='0 0'>???</button>")
+				odpoved.append("<button name = 'tah' type='submit' value='{} {}'>???</button>".format(cislo_radku, cislo_sloupce))
 			odpoved.append("  </td>")
 		odpoved.append("  </tr>")
 	odpoved.append("</table>")

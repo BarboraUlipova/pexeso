@@ -20,7 +20,8 @@ def hello():
 	for radek in hra['stav']:
 		odpoved.append("  <tr>")
 		for sloupec in radek:
-			odpoved.append("    <td>?</td>")
+			cislo, jazyk,otoceni = sloupec
+			odpoved.append("    <td>" + pexeso.slovo_podle_indexu(cislo, jazyk) + "</td>")
 		odpoved.append("  </tr>")
 	odpoved.append("</table>")
 	

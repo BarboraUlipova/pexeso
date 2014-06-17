@@ -3,6 +3,7 @@ import pexeso
 import flask
 import os
 from flask import request
+from flask import redirect
 app = flask.Flask(__name__) 
 
 jmeno_souboru="soubor_s_hrou"
@@ -18,7 +19,7 @@ def hello():
 	odpoved = []
 	odpoved.append("<form action = 'hra' method = 'POST'>")
 	odpoved.append("<table border=1>")
-	for cislo_radku, radek in enumerate(hra['stav']):
+	for cislo_radku, radek in enumerate(hra['stav']): # v cislo_radku je diky enumerate cislo a v radku je obsah radku
 		odpoved.append("  <tr>")
 		for cislo_sloupce, sloupec in enumerate(radek):
 			cislo, jazyk,otoceni = sloupec
@@ -26,7 +27,7 @@ def hello():
 			if otoceni:
 				odpoved.append(pexeso.slovo_podle_indexu(cislo, jazyk))
 			else:
-				odpoved.append("<button name = 'tah' type='submit' value='{} {}'>???</button>".format(cislo_radku, cislo_sloupce))
+				odpoved.append("<button name = 'tah' type='submit' value='{} {}'>???</button>".format(cislo_radku, cislo_sloupce)) # ve value nemuze byt promenna, tak se do {} strci to, co je ve format
 			odpoved.append("  </td>")
 		odpoved.append("  </tr>")
 	odpoved.append("</table>")
@@ -36,6 +37,16 @@ def hello():
 
 @app.route('/hra', methods = ['POST'])
 def hra():
-	return request.form['tah']
+	radek, sloupec = request.form['tah'].split(" ")
+	radek = int(radek)
+	sloupec = int(sloupec)
+	if os.path.exists(jmeno_souboru):
+		hra = pexeso.nacti_hru_ze_souboru(jmeno_souboru)
+	else:
+		hra = pexeso.vytvor_hru(pexeso.zamichej_karty())
+	pexeso.ukonci_tah(hra)
+	hra = pexeso.udelej_tah(hra, radek, sloupec)
+	pexeso.zapis_hru_do_souboru(hra,jmeno_souboru)
+	return redirect("/")
 app.run(debug=True)
 

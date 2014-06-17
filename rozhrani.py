@@ -16,12 +16,15 @@ def hello():
 		
 	
 	odpoved = []
-	odpoved.append("<table>")
+	odpoved.append("<table border=1>")
 	for radek in hra['stav']:
 		odpoved.append("  <tr>")
 		for sloupec in radek:
 			cislo, jazyk,otoceni = sloupec
-			odpoved.append("    <td>" + pexeso.slovo_podle_indexu(cislo, jazyk) + "</td>")
+			if otoceni:
+				odpoved.append("    <td>" + pexeso.slovo_podle_indexu(cislo, jazyk) + "</td>")
+			else:
+				odpoved.append("    <td>???</td>")
 		odpoved.append("  </tr>")
 	odpoved.append("</table>")
 	

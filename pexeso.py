@@ -1,11 +1,16 @@
-﻿import pprint
+﻿"""
+Program se pousti tak, ze se pusti soubor rozhrani. Rozhrani zavola fci vytvor_hru, ktera zavola zamichej_karty.  Zamichej_karty vytvori 
+nahodne zamichany seznam trojic, kde je cislo karty (odpovidajici karty v cj a en. maji stejne cislo), jazyk a otoceni. Vytvor_hru z toho pak udela slovnik, 
+kde je jeden prvek seznam a druhy karta, se kterou se prave pracuje.  
+"""
+
+import pprint
 from random import shuffle
 import os.path
 import json
 
 slova = []
-
-cesta = os.path.join(os.path.dirname(__file__), 'slova.txt') # dirname najde jmeno adresare, kde je soubor zatim (slova), join vlozi slova za nazev te cesty
+cesta = os.path.join(os.path.dirname(__file__), 'slova.txt') # dirname najde jmeno adresare, kde je soubor (slova) se slovama, ktera se hadaji v pexesu, join vlozi slova za nazev te cesty
 with open (cesta, encoding='utf-8') as soubor:
 	for radek in soubor:
 		if radek.strip():
@@ -47,14 +52,16 @@ def zamichej_karty(): # funkce shuffle v modulu random zamicha seznam
 	seznam_karet = []
 	seznam_zamichanych_karet = []
 	otoceno = False
-	for cislo in range(8):
+	pocet_slov = len(slova)
+	polovicni_pocet_slov = int(pocet_slov/2)
+	for cislo in range(pocet_slov):
 		for pismeno in "cesky", "anglicky":
 			prvek = (cislo,pismeno,otoceno)
 			seznam_karet.append(prvek)
 	shuffle(seznam_karet)
-	for neco in range(4):
-		index = neco * 4
-		seznam_zamichanych_karet.append(seznam_karet[index:index+4])		
+	for neco in range(polovicni_pocet_slov):
+		index = neco * (polovicni_pocet_slov)
+		seznam_zamichanych_karet.append(seznam_karet[index:index+polovicni_pocet_slov])		
 	return (seznam_zamichanych_karet)
 	
 
@@ -91,6 +98,7 @@ def otoc_kartu(stav,radek,sloupec,nove_otoceni):
 	""" sem se maji napsat komentare k funkci """ 
 	cislo, jazyk, stare_otoceni = stav[radek][sloupec] # stav[radek][sloupec] vrati trojici, tu tuple, ve ktere mam cislo, jazyk, otoceni
 	stav[radek][sloupec] = cislo, jazyk, nove_otoceni
+	
 def udelej_tah(hra, radek, sloupec):
 	
 	if (hra['stav'][radek][sloupec][2] == True):

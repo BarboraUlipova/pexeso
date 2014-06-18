@@ -1,5 +1,6 @@
 import sys
 import os.path
+import os
 import pexeso
 from pprint import pprint
 
@@ -16,8 +17,14 @@ def hrej():
 		hra = pexeso.nacti_hru_ze_souboru(jmeno_souboru)
 	else:
 		hra = pexeso.vytvor_hru(pexeso.zamichej_karty())
-	pexeso.vypis_stav(hra['stav'])
 	
+	if pexeso.zjisti_jestli_vyhral(hra):
+		print ("Vyhravas")
+		chce_hrat = input("Chces hrat znova A/N")
+		if chce_hrat == "A":
+			os.remove(jmeno_souboru)
+			hrej()
+	pexeso.vypis_stav(hra['stav'])	
 	radek = input("zadej radek")
 	pexeso.kontrola_vstupu(radek)
 	radek = int(radek) - 1

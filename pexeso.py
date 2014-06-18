@@ -132,6 +132,14 @@ def kontrola_vstupu(cislo):
 		raise ValueError("Je potreba zadat cislo")
 	if int(cislo) > velikost_pexesa:
 		raise ValueError("Cislo musi byt mensi nez 5")
+	
+def zjisti_jestli_vyhral(hra):
+	for radek in hra['stav']:
+		for sloupec in radek:
+			if sloupec[2] == False:
+				return False
+	return True
+	
 		
 
 	

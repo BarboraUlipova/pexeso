@@ -31,19 +31,26 @@ def hello():
 			odpoved.append("  </td>")
 		odpoved.append("  </tr>")
 	odpoved.append("</table>")
-	odpoved.append("</form>")
-	
+	if pexeso.zjisti_jestli_vyhral(hra):
+		odpoved.append("Vyhravas")
+	odpoved.append("</form>")	
 	return "\n".join(odpoved)
 
-@app.route('/hra', methods = ['POST'])
+@app.route('/hra', methods = ['POST']) #jsou dve metody na ziskani udaju od uzivatele: post a get. get mi neumozni menit udaje na serveru, takze musim pouzit post
 def hra():
+	"""
+	1. zjisti, na co hrac klikl (nacte value = souradnice buttonu, ktery se jmenuje tah)
+	2. rozdeli value na dve cisla a prevede na int
+	3. nacte si hru ze souboru, ukonci tah, pokud jsou otocene 2 karty, jinak udela tah a zapise hru do souboru
+	cim se ta fce spousti? Kliknutim na button?
+	"""
 	radek, sloupec = request.form['tah'].split(" ")
 	radek = int(radek)
 	sloupec = int(sloupec)
 	if os.path.exists(jmeno_souboru):
 		hra = pexeso.nacti_hru_ze_souboru(jmeno_souboru)
 	else:
-		hra = pexeso.vytvor_hru(pexeso.zamichej_karty())
+		hra = pexeso.vytvor_hru(pexeso.zamichej_karty())		
 	pexeso.ukonci_tah(hra)
 	hra = pexeso.udelej_tah(hra, radek, sloupec)
 	pexeso.zapis_hru_do_souboru(hra,jmeno_souboru)

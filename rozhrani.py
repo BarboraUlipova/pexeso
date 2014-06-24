@@ -7,9 +7,6 @@ from flask import redirect
 app = flask.Flask(__name__) 
 
 jmeno_souboru="soubor_s_hrou"
-def nova_hra():
-	os.remove(jmeno_souboru)
-	hello()
 
 @app.route('/')
 def hello():
@@ -33,13 +30,18 @@ def hello():
 			odpoved.append("  </td>")
 		odpoved.append("  </tr>")
 	odpoved.append("</table>")
+	odpoved.append("</form>")
+	odpoved.append("<form action = 'reset' method = 'POST'>")
 	if pexeso.zjisti_jestli_vyhral(hra):		
-		odpoved.append("Vyhravas! Chces hrat znova? <button name = 'Ano' type='submit' value='Ano'>Ano</button> <button name = 'Ne' type='submit' value='ne'>Ne</button>")
-		os.remove(jmeno_souboru)
-		hello()
+		odpoved.append("Vyhravas! Chces <button name = 'Ano' type='submit' value='Ano'>hrat znova</button>?")
 	odpoved.append("</form>")			
 	return "\n".join(odpoved)
-
+	
+@app.route('/reset', methods = ['POST']) # formular zacne hledat adresu reset, app.route('/reset') rekne, ze ma pustit funkci reset
+def reset():
+	os.remove(jmeno_souboru)
+	return redirect("/") # redirect mi vrati na funkci hello()
+	
 @app.route('/hra', methods = ['POST']) #jsou dve metody na ziskani udaju od uzivatele: post a get. get mi neumozni menit udaje na serveru, takze musim pouzit post
 def hra():
 	"""
@@ -59,12 +61,6 @@ def hra():
 	hra = pexeso.udelej_tah(hra, radek, sloupec)
 	pexeso.zapis_hru_do_souboru(hra,jmeno_souboru)
 	return redirect("/")
-	
-"""@app.route('/nova_hra', methods = ['POST'])	
-def nova_hra():
-	chce_hrat = request.form['Ano']
-	if chce_hrat == "Ano":
-		return redirect("/")"""
 	
 app.run(debug=True)
 

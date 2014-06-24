@@ -94,5 +94,3 @@ def hra(jmeno_hry):
 	pexeso.zapis_hru_do_souboru(hra,jmeno_souboru)
 	return redirect("/h/" + jmeno_hry)
 	
-app.run()
-

@@ -32,7 +32,7 @@ Soubor se nacte, rozdeli na slova a ulozi do seznamu slova.
 with open (cesta, encoding='utf-8') as soubor:
 	for radek in soubor:
 		if radek.strip():
-			slova.append(radek.split()) #vytvori seznam, ktery ma 8 podseznamu - dvojice cj-en
+			slova.append(radek.split()) #vytvori seznam, jehoz podseznamy jsou dvojice cj-en
 			
 
 def zjisti_delku_nejdelsiho_slova():
@@ -87,7 +87,7 @@ def zamichej_karty():
 	shuffle(seznam_karet)
 	for neco in range (int(pocet_dvojic_slov*2 / pocet_karet_v_radku)):
 		index = neco * (pocet_karet_v_radku)
-		seznam_zamichanych_karet.append(seznam_karet[index:index+pocet_karet_v_radku])		
+		seznam_zamichanych_karet.append(seznam_karet[index:index+pocet_karet_v_radku])
 	return (seznam_zamichanych_karet)
 	
 

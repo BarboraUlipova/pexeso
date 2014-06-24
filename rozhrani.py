@@ -16,7 +16,7 @@ def hello():
 		hra = pexeso.vytvor_hru(pexeso.zamichej_karty())
 	
 	odpoved = []
-	odpoved.append("<form action = 'hra' method = 'POST'>")
+	odpoved.append("<html><head><title>Pexeso</title></head><body><form action = 'hra' method = 'POST'>")
 	odpoved.append("<table border=1>")
 	for cislo_radku, radek in enumerate(hra['stav']): # v cislo_radku je diky enumerate cislo a v radku je obsah radku
 		odpoved.append("  <tr>")
@@ -34,7 +34,7 @@ def hello():
 	odpoved.append("<form action = 'reset' method = 'POST'>")
 	if pexeso.zjisti_jestli_vyhral(hra):		
 		odpoved.append("Vyhravas! Chces <button name = 'Ano' type='submit' value='Ano'>hrat znova</button>?")
-	odpoved.append("</form>")			
+	odpoved.append("</form></body></html>")			
 	return "\n".join(odpoved)
 	
 @app.route('/reset', methods = ['POST']) # formular zacne hledat adresu reset, app.route('/reset') rekne, ze ma pustit funkci reset

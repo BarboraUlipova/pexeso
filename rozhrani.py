@@ -55,10 +55,11 @@ def hello(jmeno_hry):
 		odpoved.append("  </tr>")
 	odpoved.append("</table>")
 	odpoved.append("</form>")
-	odpoved.append("<form action = '/reset/{}' method = 'POST'>".format(jmeno_hry))
-	if pexeso.zjisti_jestli_vyhral(hra):		
+	if pexeso.zjisti_jestli_vyhral(hra):	
+		odpoved.append("<form action = '/reset/{}' method = 'POST'>".format(jmeno_hry))
 		odpoved.append("Vyhravas! Chces <button name = 'Ano' type='submit' value='Ano'>hrat znova</button>?")
-	odpoved.append("</form></body></html>")			
+		odpoved.append("</form>")	
+	odpoved.append("</body></html>")			
 	return "\n".join(odpoved)
 	
 @app.route('/reset/<jmeno_hry>', methods = ['POST']) # formular zacne hledat adresu reset, app.route('/reset') rekne, ze ma pustit funkci reset
